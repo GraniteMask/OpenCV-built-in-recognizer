@@ -10,6 +10,7 @@ haar_cascade = cv.CascadeClassifier('haarcascade_frontalface_default.xml')
 # p=[]
 # for i in os.listdir(r'D:\Computer Vision Courses\OpenCv free code camp\projects\face-detection-opencv-builtIn'):
 #     p.append(i)
+# print(p)
 
 features = []
 labels = []
@@ -37,7 +38,20 @@ def create_train():
 
 create_train()
 
+print("Training done!!!")
+
 print(f'Length of the features={len(features)}')
 print(f'Length of the labels={len(labels)}')
 
-# print(p)
+features = np.array(features, dtype='object')
+labels = np.array(labels)
+
+face_recognizer = cv.face.LBPHFaceRecognizer_create()
+
+# Train the recognizer on the features ist and the labels list
+
+face_recognizer.train(features, labels)
+
+face_recognizer.save('face_trained.yml')
+np.save('features.npy', features)
+np.save('labels.npy', labels)
